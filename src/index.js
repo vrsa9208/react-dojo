@@ -1,8 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-
-function App() {
-  return <div>React-Dojo</div>;
-}
+import App from "./components/App";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 render(<App />, document.getElementById("app"));
