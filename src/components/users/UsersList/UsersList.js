@@ -22,10 +22,18 @@ const UsersList = props => {
               <td>{user.lastName}</td>
               <td>{user.phoneNumber}</td>
               <td>
-                <button type="button" className="btn btn-link">
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={() => props.onEditUser(user)}
+                >
                   Editar
                 </button>
-                <button type="button" className="btn btn-link">
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={() => props.onDeleteUser(user)}
+                >
                   Eliminar
                 </button>
               </td>
@@ -37,7 +45,9 @@ const UsersList = props => {
 };
 
 UsersList.propTypes = {
-  users: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired,
+  onDeleteUser: PropTypes.func.isRequired,
+  onEditUser: PropTypes.func.isRequired
 };
 
 export default UsersList;
