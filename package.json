@@ -36,6 +36,9 @@
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react-dom": "^16.10.2",
+    "react-redux": "^7.1.1",
+    "redux": "^4.0.4",
+    "redux-immutable-state-invariant": "^2.1.0"
   }
 }

@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import UsersList from "./UsersList/UsersList";
 import { remove } from "lodash";
 import EditUser from "./EditUser/EditUser";
+import { connect } from "react-redux";
+import { setUsers } from "../../redux/actions/usersActions";
+import PropTypes from "prop-types";
 
-export default function UsersPage() {
-  let [users, setUsers] = useState([]);
+function UsersPage(props) {
   let [addUser, setAddUser] = useState(false);
   let [selectedUser, setSelectedUser] = useState({
     firstName: "",
@@ -13,16 +15,16 @@ export default function UsersPage() {
   });
 
   useEffect(() => {
-    setUsers([
+    props.setUsers([
       { id: 1, firstName: "John", lastName: "Doe", phoneNumber: "12345678" },
       { id: 2, firstName: "Jane", lastName: "Doe", phoneNumber: "12345679" }
     ]);
   }, []);
 
   const onDeleteUser = user => {
-    let usersCopy = [...users];
+    let usersCopy = [...props.users];
     remove(usersCopy, u => u.id === user.id);
-    setUsers(usersCopy);
+    props.setUsers(usersCopy);
   };
 
   const onEditUser = user => {
@@ -32,10 +34,10 @@ export default function UsersPage() {
 
   const onSubmit = user => {
     if (user.id) {
-      let usersCopy = users.map(u => {
+      let usersCopy = props.users.map(u => {
         return u.id === user.id ? user : u;
       });
-      setUsers(usersCopy);
+      props.setUsers(usersCopy);
       setSelectedUser({
         firstName: "",
         lastName: "",
@@ -43,10 +45,10 @@ export default function UsersPage() {
       });
     } else {
       let usersCopy = [
-        ...users,
+        ...props.users,
         { ...user, id: Math.floor(Math.random() * 10000) }
       ];
-      setUsers(usersCopy);
+      props.setUsers(usersCopy);
     }
     setAddUser(false);
   };
@@ -67,7 +69,7 @@ export default function UsersPage() {
         <EditUser onSubmit={onSubmit} user={selectedUser} />
       ) : (
         <UsersList
-          users={users}
+          users={props.users}
           onDeleteUser={onDeleteUser}
           onEditUser={onEditUser}
         />
@@ -75,3 +77,23 @@ export default function UsersPage() {
     </div>
   );
 }
+
+UsersPage.propTypes = {
+  users: PropTypes.array.isRequired,
+  setUsers: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    users: state.users.data
+  };
+};
+
+const mapDispatchToProps = {
+  setUsers
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UsersPage);
